@@ -23,7 +23,7 @@ def index(request):
 
     selected_category = request.GET.get("category")
     all_posts = Post.objects.filter(status='published')
-    paginator = Paginator(all_posts, 1 )
+    paginator = Paginator(all_posts, 20)
     page = request.GET.get('page')
     try:
         posts = paginator.page(page)

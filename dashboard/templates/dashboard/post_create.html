@@ -1,0 +1,100 @@
+{% extends "dashboard/base.html" %}
+{% load method_override %}
+
+{%block title%}Create post{%endblock%}
+{% block content %}
+
+            <!-- Admin Content -->
+            <div class="admin-content">
+                <div class="button-group">
+                    <a href="{% url 'dashboard:create-post' %}" class="btn btn-big">Add Post</a>
+                    <a href="{% url 'dashboard:post' %}" class="btn btn-big">Manage Posts</a>
+                </div>
+
+
+                <div class="content">
+
+                    {% if edit %}
+                    <h2 class="page-title">Edit Post</h2>
+                    {% else %}
+                    <h2 class="page-title">Create Post</h2>
+                    {% endif %}
+
+                <p style="color: red;">{{error}}</p>
+                
+                <form action="{% if edit %}{% url 'dashboard:edit-post' post.slug %}{% else %}{% url 'dashboard:create-post' %}{% endif %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% if edit %}
+                    <input type="hidden" name="_method" value="PUT">
+                    {% endif %}
+                    <div>
+                        <label>Title</label>
+                        {% if edit %}
+                            <input type="text" name="title" class="text-input" value="{{ post.title }}">
+                        {% else %}
+                            <input type="text" name="title" class="text-input" value="">
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label>Body</label>
+                        {% if edit %}
+                            <textarea name="body" id="body" class="text-input">{{ post.body }}</textarea>
+                        {% else %}
+                            <textarea name="body" id="body" class="text-input"></textarea>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label>Image</label>
+                        <input type="file" name="image" class="text-input">
+                    </div>
+                    <div>
+                        <label>Category</label>
+                        <select name="category" class="text-input">
+                            {% for x in all_categories %}
+                                {% if edit %}
+                                    {% if x.category_slug == post.category.category_slug %}
+                                    
+                                        <option value="{{ x.category_slug }}" selected>{{ x.name }}</option>
+                                    {% else %}
+                                        <option value="{{ x.category_slug }}">{{ x.name }}</option>
+                                    {% endif %}
+                                {% else %}
+                                    <option value="{{ x.category_slug }}">{{ x.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        
+                    </div>
+                    <div>
+                        <label>Author</label>
+                        <select name="author" class="text-input">
+                            {% for a in all_authors %}
+                                {% if edit and a.id == post.author.id %}
+                                    <option value="{{ a.id }}" selected>{{ a.username }}</option>
+                                {% else %}
+                                    <option value="{{ a.id }}">{{ a.username }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        
+                    </div>
+                    <div>
+                        <label>Status</label>
+                        <select name="status" class="text-input">
+                            <option value="draft" {% if edit and post.status == 'draft' %}selected{% endif %}>Draft</option>
+                            <option value="published" {% if edit and post.status == 'published' %}selected{% endif %}>Published</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-big">{% if edit %}Update Post{% else %}Add Post{% endif %}</button>
+                    </div>
+                </form>
+
+                </div>
+
+            </div>
+            <!-- // Admin Content -->
+
+        </div>
+        <!-- // Page Wrapper -->
+{%endblock%}

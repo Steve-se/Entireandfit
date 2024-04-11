@@ -1,0 +1,11 @@
+<div class="pagination" style="margin-top: 60px; margin-bottom: 60px; text-align: center;">
+    <span class="step-links">
+        {% if page.has_previous %}
+            <a href="?page={{ page.previous_page_number }}" style="padding: 5px 10px; margin: 0 5px; color: #333; text-decoration: none; border: 1px solid #ccc; border-radius: 5px;">Previous</a>
+        {% endif %}
+        <span class="current" style="padding: 5px 10px; margin: 0 5px; color: #fff; background-color: #006669; border: 1px solid #006669; border-radius: 5px;">Page {{ page.number }} of {{ page.paginator.num_pages }}.</span>
+        {% if page.has_next %}
+            <a href="?page={{ page.next_page_number }}" style="padding: 5px 10px; margin: 0 5px; color: #333; text-decoration: none; border: 1px solid #ccc; border-radius: 5px;">Next</a>
+        {% endif %}
+    </span>
+</div>

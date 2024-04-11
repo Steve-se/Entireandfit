@@ -1,0 +1,59 @@
+
+{% extends "dashboard/base.html" %}
+
+{%block title%}create users{%endblock%}
+{% block content %}
+            <!-- Admin Content -->
+            <div class="admin-content">
+                <div class="button-group">
+                    <a href="{% url 'dashboard:create-user' %}" class="btn btn-big">Add User</a>
+                    <a href="{% url 'dashboard:manage-user' %}" class="btn btn-big">Manage Users</a>
+                </div>
+
+
+                <div class="content">
+
+                    <h2 class="page-title">{% if edit %}Edit User{% else %}Add User{% endif %}</h2>
+
+                    <p style="color: red;">{{ error }}</p>
+                    
+                    <form action="{% if edit %}{% url 'dashboard:edit-user' user.id %}{% else %}{% url 'dashboard:create-user' %}{% endif %}" method="post">
+                        {% csrf_token %}
+                        <div>
+                            <label>Username</label>
+                            <input type="text" name="username" class="text-input" value="{{ user.username }}">
+                        </div>
+                        <div>
+                            <label>Email</label>
+                            <input type="email" name="email" class="text-input" value="{{ user.email }}">
+                        </div>
+                        <div>
+                            <label>Password</label>
+                            <input type="password" name="password" class="text-input">
+                        </div>
+                        <div>
+                            <label>Password Confirmation</label>
+                            <input type="password" name="passwordConf" class="text-input">
+                        </div>
+                        <div>
+                            <label>Role</label>
+                            <select name="role" class="text-input">
+                                <option value="reader" {% if user.role == 'reader' %}selected{% endif %}>Reader</option>
+                                <option value="author" {% if user.role == 'author' %}selected{% endif %}>Author</option>
+                                <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Admin</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-big">{% if edit %}Update User{% else %}Add User{% endif %}</button>
+                        </div>
+                    </form>
+                    
+
+                </div>
+
+            </div>
+            <!-- // Admin Content -->
+
+        </div>
+        <!-- // Page Wrapper -->
+{%endblock%}

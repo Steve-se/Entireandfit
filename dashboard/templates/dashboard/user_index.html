@@ -1,0 +1,51 @@
+
+{% extends "dashboard/base.html" %}
+
+{%block title%}manage users{%endblock%}
+{% block content %}
+
+
+            <!-- Admin Content -->
+            <div class="admin-content">
+                <div class="button-group">
+                    <a href="{% url 'dashboard:create-user' %}" class="btn btn-big">Add User</a>
+                    <a href="{% url 'dashboard:manage-user' %}" class="btn btn-big">Manage Users</a>
+                </div>
+
+
+                <div class="content">
+
+                    <h2 class="page-title">Manage Users</h2>
+
+                    <table>
+                        <thead>
+                            <th>SN</th>
+                            <th>Username</th>
+                            <th>Role</th>
+                            <th colspan="2">Action</th>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{user.id}}</td>
+                                <td>{{user.username}}</td>
+                                <td>{{user.role}}</td>
+                                <td><a href="{% url 'dashboard:edit-user' user.id%}" class="edit">edit</a></td>
+                                <td><form action="{% url 'dashboard:user-delete' user.id %}" method="post" id="delete-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="submit" value="Delete" class="delete">
+                                </form></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+                {% include "pagination.html" with page=users %}
+            </div>
+            <!-- // Admin Content -->
+        </div>
+        <!-- // Page Wrapper -->
+
+{%endblock%}

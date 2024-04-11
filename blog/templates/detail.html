@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{%block title%}Read{%endblock%}
+{% block content %}
+  <!-- Page Wrapper -->
+  <div class="page-wrapper">
+
+    <!-- Content -->
+    <div class="content clearfix">
+
+      <!-- Main Content Wrapper -->
+      <div class="main-content-wrapper">
+        <div class="main-content single">
+          <h1 class="post-title">{{item.title}}</h1>
+
+          <div class="post-content">
+            <p>{{item.body|safe}}
+            </p>
+          </div>
+
+        </div>
+      </div>
+      <!-- // Main Content -->
+
+      <!-- Sidebar -->
+      <div class="sidebar single">
+
+        <div class="fb-page" data-href="https://web.facebook.com/codingpoets/" data-small-header="false"
+          data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+          <blockquote cite="https://web.facebook.com/codingpoets/" class="fb-xfbml-parse-ignore"><a
+              href="https://web.facebook.com/codingpoets/">Coding Poets</a></blockquote>
+        </div>
+
+
+        <div class="section popular">
+          <h2 class="section-title">Similar Posts</h2>
+          {% for x in similar_posts %}
+          <div class="post clearfix">
+            <img src="{{x.image.url}}" alt="{{x.title}}">
+            <a href="{% url 'blog:detail-page' slug=x.slug%}" class="title">
+              <h4>{{x.title}}</h4>
+            </a>
+          </div>
+          {% empty %}
+          <p>No similar posts found.</p>
+          {% endfor %}
+
+     </div>
+
+        <div class="section topics">
+          <h2 class="section-title">Categories</h2>
+          <ul>
+            {%for item in all_categories %}
+            <li><a href="{% url 'blog:homepage'%}?category={{item.name}}">{{item.name}}</a></li>
+            {%endfor%}
+          </ul>
+        </div>
+      </div>
+      <!-- // Sidebar -->
+
+    </div>
+    <!-- // Content -->
+
+  </div>
+  <!-- // Page Wrapper -->
+
+{%endblock%}

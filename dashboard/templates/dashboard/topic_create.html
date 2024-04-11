@@ -1,0 +1,39 @@
+
+{% extends "dashboard/base.html" %}
+
+{%block title%}create topic{%endblock%}
+{% block content %}
+
+            <!-- Admin Content -->
+            <div class="admin-content">
+                <div class="button-group">
+                    <a href="{% url 'dashboard:create-topic' %}" class="btn btn-big">Add Topic</a>
+                    <a href="{% url 'dashboard:manage-topic' %}" class="btn btn-big">Manage Topics</a>
+                </div>
+
+
+                <div class="content">
+
+                    <h2 class="page-title">{% if edit %}Edit Topic{% else %}Add Topic{% endif %}</h2>
+
+                    <form action="{% if edit %}{% url 'dashboard:edit-topic' category.category_slug %}{% else %}{% url 'dashboard:create-topic' %}{% endif %}" method="post">
+                        {% csrf_token %}
+                        <p style="color: red;">{{ error }}</p>
+                        <div>
+                            <label>Name</label>
+                            <input type="text" required name="name" class="text-input" value="{% if edit %}{{ category.name }}{% endif %}">
+                        </div>
+                    
+                        <div>
+                            <button type="submit" class="btn btn-big">{% if edit %}Update Topic{% else %}Add Topic{% endif %}</button>
+                        </div>
+                    </form>
+                    
+
+                </div>
+
+            </div>
+            <!-- // Admin Content -->
+
+        </div>
+{%endblock%}

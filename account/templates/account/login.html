@@ -1,0 +1,32 @@
+{% extends "account/base.html" %}
+
+{%block title%}Login{%endblock%}
+{% block content %}
+
+  <div class="auth-content">
+
+    <form action="{% url 'account:login' %}" method="post">
+      {%csrf_token%}
+      <h2 class="form-title">Login</h2>
+
+      <p style="color: red;">{{error}}</p>
+
+      <div>
+        <label>Username</label>
+        <input type="text" name="username" class="text-input">
+      </div>
+      <div>
+        <label>Password</label>
+        <input type="password" name="password" class="text-input">
+      </div>
+      <div>
+        <button type="submit" name="login-btn" class="btn btn-big">Login</button>
+      </div>
+      <p>Or <a href="{% url 'account:register'%}">Sign Up</a></p>
+    </form>
+
+  </div>
+
+  {%endblock%}
+
+

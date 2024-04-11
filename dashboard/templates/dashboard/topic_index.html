@@ -1,0 +1,49 @@
+
+{% extends "dashboard/base.html" %}
+
+{%block title%}manage topics{%endblock%}
+{% block content %}
+
+            <!-- Admin Content -->
+            <div class="admin-content">
+                <div class="button-group">
+                    <a href="{% url 'dashboard:create-topic' %}" class="btn btn-big">Add Topic</a>
+                    <a href="{% url 'dashboard:manage-topic' %}" class="btn btn-big">Manage Topics</a>
+                </div>
+
+
+                <div class="content">
+
+                    <h2 class="page-title">Manage Topics</h2>
+
+                    <table>
+                        <thead>
+                            <th>SN</th>
+                            <th>Name</th>
+                            <th colspan="2">Action</th>
+                        </thead>
+                        <tbody>
+                            {% for topic in all_topics %}
+                            <tr>
+                                <td>{{topic.id}}</td>
+                                <td>{{topic.name}}</td>
+                                <td><a href="{% url 'dashboard:edit-topic' topic.category_slug  %}" class="edit">edit</a></td>
+                                
+                                <td><form action="{% url 'dashboard:topic-delete' topic.category_slug %}" method="post" id="delete-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="submit" value="Delete" class="delete">
+                                </form></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+                {% include "pagination.html" with page=all_topics %}
+            </div>
+            <!-- // Admin Content -->
+
+        </div>
+        <!-- // Page Wrapper -->
+{%endblock%}

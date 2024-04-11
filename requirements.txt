@@ -1,0 +1,17 @@
+asgiref==3.7.2
+dj-database-url==2.1.0
+Django==5.0.3
+django-ckeditor==6.7.1
+django-environ==0.11.2
+django-etc==1.4.0
+django-hitcount==1.3.5
+django-js-asset==2.2.0
+django-method-override==1.0.4
+Markdown==3.6
+pillow==10.2.0
+psycopg2-binary==2.9.9
+sqlparse==0.4.4
+typing_extensions==4.10.0
+tzdata==2024.1
+whitenoise==6.6.0
+django-decouple==2.1

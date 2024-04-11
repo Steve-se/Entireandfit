@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load hitcount_tags %}
+{%block title%}Home{%endblock%}
+{% block content %}
+  <!-- Page Wrapper -->
+  <div class="page-wrapper">
+
+    <!-- Post Slider -->
+    <div class="post-slider">
+      <h1 class="slider-title">Trending Posts</h1>
+      <i class="fas fa-chevron-left prev"></i>
+      <i class="fas fa-chevron-right next"></i>
+
+      <div class="post-wrapper">
+{% for x in trending %}
+        <div class="post">
+          <img src="{{x.image.url}}" alt="{{x.title}}" class="slider-image">
+          <div class="post-info">
+            <h4><a href="{% url 'blog:detail-page' slug=x.slug %}">{{x.title|truncatewords:9}}</a></h4>
+            <i class="far fa-user"> {{x.user.username}}</i>
+            &nbsp;
+            <i class="far fa-calendar"> {{x.created|date}}</i>  |
+            &nbsp;
+            <i class="far fa-eye"> {% get_hit_count for x%}</i>
+          </div>
+        </div>
+{%endfor%}
+      </div>
+
+    </div>
+    <!-- // Post Slider -->
+
+    <!-- Content -->
+    <div class="content clearfix">
+
+      <!-- Main Content -->
+      <div class="main-content">
+        {% if selected_category %}
+        <h1 class="recent-post-title">Posts for category: "{{ selected_category }}"</h1>
+        {% elif data %}
+        <h1 class="recent-post-title">Search Results for: "{{ data }}"</h1>
+
+        {% else %}
+        <h1 class="recent-post-title">All Posts</h1>
+        {% endif %}
+
+        {% if post %}
+        <!-- Display posts for the selected category or search term -->
+        <!-- Your code to display posts goes here -->
+        {% else %}
+        <div style="display: flex; justify-content: center; align-items: center;">
+        <h4>{% if data %}No search results found{% else %}There are no posts in this category{% endif %}.</h4>
+        </div>
+    {% endif %}
+
+
+{% for post in post %}
+
+        <div class="post clearfix">
+          <img src="{{post.image.url}}" alt="" class="post-image">
+          <div class="post-preview">
+            <h2><a href="{% url 'blog:detail-page' slug=post.slug%}">{{post.title}}</a></h2>
+
+            <i class="far fa-list"> {{post.category}}</i> |
+            &nbsp;
+            <i class="far fa-user"> {{post.user.username}}</i>
+            &nbsp;
+            <i class="far fa-calendar"> {{post.created|date}}</i>
+            |
+            <i class="far fa-eye"> {%get_hit_count for post %}</i>
+            &nbsp;
+            <p class="preview-text">
+             {{post.body|safe|truncatewords:30}}
+            </p>
+            <a href="{% url 'blog:detail-page' slug=post.slug%}" class="btn read-more">Read More</a>
+          </div>
+        </div>
+{% endfor %}
+      </div>
+      <!-- // Main Content -->
+
+      <div class="sidebar">
+
+        <div class="section search">
+          <h2 class="section-title">Search</h2>
+          <p style="color: red;">{{error}}</p>
+          <form action="{% url 'blog:homepage'%}" method="get">
+            <input type="text" name="search" class="text-input" placeholder="Search...">
+          </form>
+        </div>
+
+
+        <div class="section topics">
+          <h2 class="section-title">Categories</h2>
+          <ul>
+            {%for item in all_categories %}
+            <li><a href="{% url 'blog:homepage'%}?category={{item.name}}">{{item.name}}</a></li>
+            {%endfor%}
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- // Content -->
+    {% include "pagination.html" with page=post %}
+  </div>
+  <!-- // Page Wrapper -->
+
+  {% endblock %}
